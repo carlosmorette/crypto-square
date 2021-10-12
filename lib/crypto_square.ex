@@ -46,30 +46,28 @@ defmodule CryptoSquare do
     |> Enum.join(" ")
   end
 
+  def scroll_columns(_enum, _rows, columns, columns, res), do: res
+
   def scroll_columns(enum, rows, columns, curr_column, res) do
-    if curr_column == columns do
-      res
-    else
-      result =
-        0..(rows - 1)
-        |> Enum.reduce([], fn i, acc ->
-          character =
-            enum
-            |> Enum.at(i)
-            |> Enum.at(curr_column)
+    result =
+      0..(rows - 1)
+      |> Enum.reduce([], fn i, acc ->
+        character =
+          enum
+          |> Enum.at(i)
+          |> Enum.at(curr_column)
 
-          acc ++ [character]
-        end)
-        |> Enum.join()
+        acc ++ [character]
+      end)
+      |> Enum.join()
 
-      scroll_columns(
-        enum,
-        rows,
-        columns,
-        curr_column + 1,
-        res ++ [result]
-      )
-    end
+    scroll_columns(
+      enum,
+      rows,
+      columns,
+      curr_column + 1,
+      res ++ [result]
+    )
   end
 
   def padding_str(str) do
